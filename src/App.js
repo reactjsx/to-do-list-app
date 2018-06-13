@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import 'semantic-ui-css/semantic.min.css';
+import { Header, Divider } from 'semantic-ui-react';
 import ToDoList from './components/ToDoList';
+import AddToDoForm from './components/AddToDoForm';
+import ToggleDoneUndone from './components/ToggleDoneUndone';
 
 class App extends Component {
   state = {
-    displayUndone: true,
+    isUndoneDisplayed: true,
     todos: [
       {
         id: 'ad807abc-ac90-4e56-b60e-2a8a01f00ee6',
@@ -35,16 +39,35 @@ class App extends Component {
       return { ...todo, isDone: !todo.isDone };
     }})
   });
+  
+  handleAddClick = todo => {
+    this.setState({ todos: this.state.todos.concat(todo) });
+  };
+  
+  handleToggleClick = isUndoneDisplayed => {
+    this.setState({ isUndoneDisplayed: isUndoneDisplayed});
+  }
 
   render() {
     const todos = this.state.todos
-      .filter(todo => this.state.displayUndone ? !todo.isDone : todo.isDone);
+      .filter(todo => this.state.isUndoneDisplayed ? !todo.isDone : todo.isDone);
     return (
-      <div>
-        <h1>To-Do List App</h1>
+      <div
+        className='ui text center aligned segment container'
+        style={{ width: '33%', marginTop: '30px' }}
+      >
+        <Header as='h1'>To-Do List App</Header>
+        <AddToDoForm
+          onAddClick={ this.handleAddClick }
+        />
+        <Divider hidden />
+        <ToggleDoneUndone
+          isUndoneDisplayed={ this.state.isUndoneDisplayed }
+          onToggleClick={ this.handleToggleClick }
+        />
         <ToDoList
           todos={ todos }
-          displayUndone={ this.state.displayUndone }
+          isUndoneDisplayed={ this.state.isUndoneDisplayed }
           onClick={ this.handleOnClick }
         />
       </div>

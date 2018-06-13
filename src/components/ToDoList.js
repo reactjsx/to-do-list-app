@@ -1,4 +1,5 @@
 import React from 'react';
+import { Item } from 'semantic-ui-react';
 import ToDo from './ToDo';
 
 const ToDoList = props => {
@@ -7,8 +8,13 @@ const ToDoList = props => {
       key={ todo.id }
       content={ todo.content }
       onClick={ () => props.onClick(todo.id) }
+      isUndoneDisplayed={ props.isUndoneDisplayed }
     />));
-  return <ul>{ todos }</ul>;
+  return (
+    <Item.Group divided>
+      { todos }
+    </Item.Group>
+  );
 };
 
 export default ToDoList;
